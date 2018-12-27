@@ -55,10 +55,12 @@
                 </ul>
 
                 {% paginate 5 posts %}
+
                 {% for post in posts %}
                 {% endfor %}
+
                 <ul class="pagination">
-                    <li class="">{% show_pages %}</li>
+                    {% show_pages %}
                 </ul>
             </div>
 
