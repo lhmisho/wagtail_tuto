@@ -1,5 +1,4 @@
 {% load static wagtailuserbar %}
-
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
@@ -17,7 +16,11 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
+
         {# Global stylesheets #}
+        <link href="{% static 'blog/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'blog/css/blog-home.css' %}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'css/wagtail_tuto.css' %}">
 
         {% block extra_css %}
@@ -27,11 +30,20 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
-        {% block content %}{% endblock %}
-
+        {% include 'navbar.html' %}
+         {% block content %}
+         {% endblock %}
+        <footer class="py-5 bg-dark">
+            <div class="container-fluid">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+            </div>
+            <!-- /.container -->
+        </footer>
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/wagtail_tuto.js' %}"></script>
+        <script type="text/javascript" src="{% static 'blog/js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
