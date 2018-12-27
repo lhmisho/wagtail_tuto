@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'wagtail.contrib.modeladmin',
     'blog',
+    'blog.templatetags',
     'el_pagination',
 ]
 
