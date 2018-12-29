@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'el_pagination',
     'wagtailmarkdown',
     'content',
+    'wagtail_simple_gallery'
 ]
 
 MIDDLEWARE = [
