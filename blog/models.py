@@ -15,6 +15,7 @@ from wagtailmarkdown.fields import MarkdownField
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase, Tag as TaggitTag
 from modelcluster.tags import ClusterTaggableManager
+from wagtail.images.edit_handlers import ImageChooserPanel
 
 #from wagtailmd.utils import MarkdownField, MarkdownPanel
 # Create your models here.
@@ -24,6 +25,7 @@ from modelcluster.tags import ClusterTaggableManager
 class BlogCategory(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, max_length=80)
+
 
     panels = [
         FieldPanel('name'),
@@ -114,12 +116,20 @@ class PostPage(Page):
     categories = ParentalManyToManyField('blog.BlogCategory', blank=True)
     categories_two = ParentalManyToManyField('blog.BlogCat2', blank=True)
     tags = ClusterTaggableManager(through='blog.BlogPageTag', blank=True)
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='A big banner')
 
     content_panels = Page.content_panels + [
         MarkdownPanel('body'),
         FieldPanel('categories',widget=forms.CheckboxSelectMultiple),
         FieldPanel('categories_two', widget=forms.CheckboxSelectMultiple),
         FieldPanel('tags'),
+        ImageChooserPanel('header_image')
     ]
 
     settings_panels = Page.settings_panels + [

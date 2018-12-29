@@ -9,7 +9,9 @@
                 <h1>{{ blog_page.title }}</h1>
                 <div class="intro">
                     {{ blog_page.description }}
+
                 </div>
+
                 <hr>
                 {% if search_term %}
                     <header class="page-header">
@@ -25,6 +27,7 @@
                     {% if post.header_image %}
                         {% image post.header_image original as header_image %}
                         <img class="card-img-top" src="{{ header_image.url }}" class="img-responsive" ></img>
+                        <p>{{ header_image.title }}</p>
                     {% else %}
                         <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
                     {% endif %}

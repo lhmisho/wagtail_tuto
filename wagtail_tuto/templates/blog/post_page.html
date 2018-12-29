@@ -6,6 +6,7 @@
         <div class="row">
             <div class="mt-3 mb-3">
                 <h1>{{ post.title }}</h1>
+                <h2 style="color: red;">Colloection: {{ blog_page.header_image.collection }}</h2>
                 <div class="">
                     {{ self.body|markdown }}
                 </div>
