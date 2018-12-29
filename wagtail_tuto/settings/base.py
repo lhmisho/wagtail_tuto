@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'blog.templatetags',
     'el_pagination',
     'wagtailmarkdown',
+    'content',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +168,17 @@ WAGTAIL_SITE_NAME = "wagtail_tuto"
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
+
+RICHTEXT_BLOCKTYPES = ['h1','h2','h3','h4','h5','h6','ul','ol']
+RICHTEXT_INLINESTYLES = ['bold','italic']
+RICHTEXT_ENTITIES = ['images','embed', 'link', 'document-link']
+RICHTEXT_MISC = ['hr']
+
+ALL_RICHTEXT_FEATURES = (
+    RICHTEXT_BLOCKTYPES +
+    RICHTEXT_ENTITIES +
+    RICHTEXT_INLINESTYLES +
+    RICHTEXT_MISC
+)
+
+OUR_LIST = ['h2', 'h4', 'bold']

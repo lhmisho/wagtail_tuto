@@ -1,3 +1,4 @@
+import copy
 from django.db import models
 from wagtail.core.models import Page
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel, RichTextFieldPanel
@@ -8,7 +9,7 @@ from wagtail.core.blocks import ( StructBlock, ListBlock,
                                   RichTextBlock, URLBlock, ChoiceBlock)
 
 
-#from videotest.settings.base import  ALL_RICHTEXT_FEATURES
+from wagtail_tuto.settings.base import ALL_RICHTEXT_FEATURES, OUR_LIST
 
 
 class QuoteBlock(StructBlock):
@@ -28,9 +29,17 @@ class ParagraphBlock(TextBlock):
 
 class HomePage(Page):
     # hero section fields
+
+    customized_list = copy.deepcopy(OUR_LIST)
+    customized_list.append('ol')
+    customized_list.append('ul')
+    customized_list.remove('h2')
+
+    customized_list += ['hr','h2','italic']
+
     default_editor = RichTextField(null=True)
-    complete_editor = RichTextField(null=True)
-    custom_editor = RichTextField(null=True, features=["bold", "h1", "h2"])
+    complete_editor = RichTextField(null=True, features=ALL_RICHTEXT_FEATURES)
+    custom_editor = RichTextField(null=True, features=customized_list)
     hero_header = models.CharField(max_length=120, blank=True, help_text="large header")
     hero_subheader = models.TextField(max_length=255, blank=True)
 
@@ -56,10 +65,12 @@ class HomePage(Page):
             classname='collapsible',
             help_text= "Multi field panel help text"
         ),
-        StreamFieldPanel('streamfiled'),
-        ImageChooserPanel('banner_image'),
-        RichTextFieldPanel('custom_editor'),
-        RichTextFieldPanel('default_editor'),
-        RichTextFieldPanel('complete_editor'),
+        StreamFieldPanel('streamfiled',classname='collapsible'),
+        ImageChooserPanel('banner_image',classname='collapsible'),
+        RichTextFieldPanel('custom_editor',classname='collapsible'),
+        RichTextFieldPanel('default_editor',classname='collapsible'),
+        RichTextFieldPanel('complete_editor',classname='collapsible'),
+
+
 
     ]
