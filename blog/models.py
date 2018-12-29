@@ -10,9 +10,13 @@ from wagtail.core.models import Page
 from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.snippets.models import register_snippet
+from wagtailmarkdown.edit_handlers import MarkdownPanel
+from wagtailmarkdown.fields import MarkdownField
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase, Tag as TaggitTag
 from modelcluster.tags import ClusterTaggableManager
+
+#from wagtailmd.utils import MarkdownField, MarkdownPanel
 # Create your models here.
 
 
@@ -105,14 +109,14 @@ class BlogPage(RoutablePageMixin, Page):
         return Page.serve(self, request, *args, **kwargs)
 
 class PostPage(Page):
-    body = RichTextField(blank=True)
+    body = MarkdownField()
     date = models.DateTimeField(verbose_name="Post date", default=datetime.datetime.today)
     categories = ParentalManyToManyField('blog.BlogCategory', blank=True)
     categories_two = ParentalManyToManyField('blog.BlogCat2', blank=True)
     tags = ClusterTaggableManager(through='blog.BlogPageTag', blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('body', classname='full'),
+        MarkdownPanel('body'),
         FieldPanel('categories',widget=forms.CheckboxSelectMultiple),
         FieldPanel('categories_two', widget=forms.CheckboxSelectMultiple),
         FieldPanel('tags'),

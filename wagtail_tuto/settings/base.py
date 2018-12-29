@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'blog',
     'blog.templatetags',
     'el_pagination',
+    'wagtailmarkdown',
 ]
 
 MIDDLEWARE = [
