@@ -7,8 +7,17 @@ from django.utils.dateformat import DateFormat
 from django.utils.formats import date_format
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.models import Page
-from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldPanel
+
+# for stream field
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core import blocks
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.embeds.blocks import EmbedBlock
+from wagtail.admin.edit_handlers import (FieldPanel, FieldRowPanel,
+                                         MultiFieldPanel, InlinePanel,
+                                         PageChooserPanel, StreamFieldPanel)
+from blog.blocks import TwoColumnBlock
+
 from wagtail.snippets.models import register_snippet
 from wagtailmarkdown.edit_handlers import MarkdownPanel
 from wagtailmarkdown.fields import MarkdownField
@@ -171,3 +180,17 @@ class BlogPageTag(TaggedItemBase):
 class Tag(TaggitTag):
     class Meta:
         proxy = True
+
+
+class LandingPage(Page):
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock(icon="image")),
+        ('two_columns', TwoColumnBlock()),
+        ('embedded_video', EmbedBlock(icon="media")),
+    ],null=True,blank=True)
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]

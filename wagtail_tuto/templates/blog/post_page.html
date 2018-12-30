@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags wagtailroutablepage_tags wagtailmarkdown%}
+{% load wagtailcore_tags wagtailroutablepage_tags wagtailmarkdown blogapp_tags %}
 
 {% block content %}
     <div class="container">
@@ -37,6 +37,7 @@
                 {% endwith %}
             </div>
         </div>
+    {% show_comments %}
     </div>
 
 {% endblock %}

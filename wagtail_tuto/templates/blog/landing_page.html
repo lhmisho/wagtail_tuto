@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+{% with blocks=self.body %}
+
+    {% for block in blocks %}
+        {% if block.block_type == 'heading' %}
+            <h2>{{ block.value }}</h2>
+        {% else %}
+           <section class="block-{{ block.block_type }}">
+               {{ block }}
+           </section>
+        {% endif %}
+        {% if block.block_type == 'paragraph' %}
+            <p>{{ block.blocks }}</p>
+        {% endif %}
+    {% endfor %}
+
+{% endwith %}
+
+{% endblock %}
