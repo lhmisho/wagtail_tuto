@@ -15,6 +15,25 @@ IMAGE_ORDER_TYPES = (
     (2, 'Newest image first'),
 )
 
+
+class GallaryPage(Page):
+    description = models.CharField(max_length=255, blank=True)
+    collection = models.ForeignKey(
+        'SimpleGalleryIndex',
+        verbose_name=_('Collection'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_('Show images in this collection in the gallery view.')
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('description', classname='collapsible full'),
+        FieldPanel('collection', classname='collapsible full'),
+    ]
+
+
 @register_snippet
 class SimpleGalleryIndex(Page):
     intro_title = models.CharField(
