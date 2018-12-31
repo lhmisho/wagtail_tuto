@@ -3,7 +3,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from wagtail.contrib.routable_page.models import route
 from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 from wagtail.images.models import Image
@@ -28,11 +30,27 @@ class GallaryPage(Page):
         help_text=_('Show images in this collection in the gallery view.')
     )
 
+
     content_panels = Page.content_panels + [
         FieldPanel('description', classname='collapsible full'),
         FieldPanel('collection', classname='collapsible full'),
     ]
 
+    def get_gallery(self):
+        return SimpleGalleryIndex.objects.descendant_of(self).live()
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(GallaryPage, self).get_context(request, *args, **kwargs)
+        context['data'] = self.get_gallery()
+        context['gallery_page'] = self
+        context['search_type'] = getattr(self, 'search_type', "")
+        context['search_term'] = getattr(self, 'search_term', "")
+        return context
+
+    @route(r'^$')
+    def post_list(self, request, *args, **kwargs):
+        self.posts = self.get_posts()
+        return Page.serve(self, request, *args, **kwargs)
 
 @register_snippet
 class SimpleGalleryIndex(Page):
@@ -47,6 +65,15 @@ class SimpleGalleryIndex(Page):
         verbose_name=_('Intro text'),
         help_text=_('Optional text to go with the intro text.')
     )
+
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='A big banner')
+
     collection = models.ForeignKey(
         'wagtailcore.Collection',
         verbose_name=_('Collection'),
@@ -75,6 +102,7 @@ class SimpleGalleryIndex(Page):
         FieldPanel('images_per_page', classname='full title'),
         FieldPanel('use_lightbox'),
         FieldPanel('order_images_by'),
+        ImageChooserPanel('header_image'),
     ]
 
     @property

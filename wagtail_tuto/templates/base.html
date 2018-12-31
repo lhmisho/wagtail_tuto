@@ -1,4 +1,4 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar menu_tags %}
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
@@ -30,7 +30,9 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-        {% include 'navbar.html' %}
+        {# Navbar       #}
+          {% main_menu template="menu/main_menu.html" %}
+
          {% block content %}
          {% endblock %}
         <footer class="py-5 bg-dark">

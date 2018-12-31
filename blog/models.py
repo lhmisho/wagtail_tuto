@@ -63,7 +63,10 @@ class BlogPage(RoutablePageMixin, Page):
         context['blog_page'] = self
         context['search_type'] = getattr(self, 'search_type', "")
         context['search_term'] = getattr(self, 'search_term', "")
+        context['menuitems'] = self.get_children().filter(
+            live=True, show_in_menus=True)
         return context
+
 
     @route(r'^(\d{4})/$')
     @route(r'^(\d{4})/(\d{2})/$')
